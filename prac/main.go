@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
-	"strconv"
+	"strings"
 )
 
 // func main() {
@@ -82,52 +82,101 @@ import (
 // 	return value1 / value2
 // }
 
-func main() {
-	var value string
-	log.Println("Enter a value:")
-	fmt.Scanln(&value)
+// func main() {
+// 	var value string
+// 	log.Println("Enter a value:")
+// 	fmt.Scanln(&value)
 
-	var numbers []int
-	var operators []rune
-	numStr := ""
-	for _, r := range value {
-		if isOperator(r) {
-			num, _ := strconv.Atoi(numStr)
-			numbers = append(numbers, num)
-			operators = append(operators, r)
-			numStr = ""
-		} else {
-			numStr += string(r)
-			log.Println("number string", numStr)
+// 	var numbers []int
+// 	var operators []rune
+// 	numStr := ""
+// 	for _, r := range value {
+// 		if isOperator(r) {
+// 			num, _ := strconv.Atoi(numStr)
+// 			numbers = append(numbers, num)
+// 			operators = append(operators, r)
+// 			numStr = ""
+// 		} else {
+// 			numStr += string(r)
+// 			log.Println("number string", numStr)
+// 		}
+// 	}
+
+// 	num, _ := strconv.Atoi(numStr)
+// 	numbers = append(numbers, num)
+
+// 	result := numbers[0]
+// 	for i, op := range operators {
+// 		result = performOperation(result, numbers[i+1], op)
+// 	}
+
+// 	log.Println("Result:", result)
+// }
+
+// func isOperator(r rune) bool {
+// 	return r == '+' || r == '-' || r == '*' || r == '/'
+// }
+
+// func performOperation(a, b int, op rune) int {
+// 	switch op {
+// 	case '+':
+// 		return a + b
+// 	case '-':
+// 		return a - b
+// 	case '*':
+// 		return a * b
+// 	case '/':
+// 		return a / b
+// 	default:
+// 		return 0
+// 	}
+// }
+
+func main() {
+	var expression string
+	fmt.Print("Enter the expression: ")
+	fmt.Scanln(&expression)
+
+	result := calculate(expression)
+	fmt.Printf("Result: %.2f\n", result)
+}
+
+func calculate(expr string) float64 {
+	expr = strings.ReplaceAll(expr, " ", "")
+
+	var stack []float64
+	var num float64
+	var sign byte = '+'
+
+	for i := 0; i < len(expr); i++ {
+		c := expr[i]
+		log.Print(c)
+		isDigit := c >= '0' && c <= '9'
+		// log.Print(isDigit, "digittt")
+		if isDigit {
+			num = num*10 + float64(c-'0')
+			log.Print(num)
+
+		}
+		if !isDigit || i == len(expr)-1 {
+			switch sign {
+			case '+':
+				stack = append(stack, num)
+			case '-':
+				stack = append(stack, -num)
+			case '*':
+				stack[len(stack)-1] *= num
+			case '/':
+				stack[len(stack)-1] /= num
+			}
+			sign = c
+			num = 0
 		}
 	}
 
-	num, _ := strconv.Atoi(numStr)
-	numbers = append(numbers, num)
-
-	result := numbers[0]
-	for i, op := range operators {
-		result = performOperation(result, numbers[i+1], op)
+	var result float64
+	for _, v := range stack {
+		result += v
 	}
-
-	log.Println("Result:", result)
-}
-
-func isOperator(r rune) bool {
-	return r == '+' || r == '-' || r == '*' || r == '/'
-}
-
-func performOperation(a, b int, op rune) int {
-	switch op {
-	case '+':
-		return a + b
-	case '-':
-		return a - b
-	case '*':
-		return a * b
-	case '/':
-		return a / b
-	default:
-		return 0
-	}
+	return result
 }
