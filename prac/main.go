@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"strings"
 )
 
@@ -143,39 +142,32 @@ func main() {
 
 func calculate(expr string) float64 {
 	expr = strings.ReplaceAll(expr, " ", "")
-
-	var stack []float64
+	var operations []float64
 	var num float64
 	var sign byte = '+'
-
 	for i := 0; i < len(expr); i++ {
 		c := expr[i]
-		log.Print(c)
-		isDigit := c >= '0' && c <= '9'
-		// log.Print(isDigit, "digittt")
+		isDigit := string(c) >= "0" && string(c) <= "9"
 		if isDigit {
 			num = num*10 + float64(c-'0')
-			log.Print(num)
-
 		}
 		if !isDigit || i == len(expr)-1 {
 			switch sign {
 			case '+':
-				stack = append(stack, num)
+				operations = append(operations, num)
 			case '-':
-				stack = append(stack, -num)
+				operations = append(operations, -num)
 			case '*':
-				stack[len(stack)-1] *= num
+				operations[len(operations)-1] *= num
 			case '/':
-				stack[len(stack)-1] /= num
+				operations[len(operations)-1] /= num
 			}
 			sign = c
 			num = 0
 		}
 	}
-
 	var result float64
-	for _, v := range stack {
+	for _, v := range operations {
 		result += v
 	}
 	return result
