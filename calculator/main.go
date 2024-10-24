@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 )
 
 func main() {
@@ -11,11 +10,10 @@ func main() {
 	fmt.Scanln(&expression)
 
 	result := calculate(expression)
-	fmt.Printf("Result:%V\n ", result)
+	fmt.Printf("Result:%v\n ", result)
 }
 
 func calculate(expr string) float64 {
-	expr = strings.ReplaceAll(expr, " ", "")
 	var operations []float64
 	var num float64
 	var sign byte = '+'
@@ -40,6 +38,7 @@ func calculate(expr string) float64 {
 			sign = c
 			num = 0
 		}
+
 	}
 	var result float64
 	for _, v := range operations {
