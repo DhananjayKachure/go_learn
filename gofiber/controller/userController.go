@@ -71,6 +71,7 @@ func UpdateUser(c *fiber.Ctx) error {
 	}
 
 	filter := bson.M{"_id": objID}
+	log.Println(filter, "ksdaksl")
 	update := bson.M{"set": user}
 	log.Println(filter, "podfpodk", update)
 	_, err = connection.UserCollection.UpdateOne(context.TODO(), filter, update)
