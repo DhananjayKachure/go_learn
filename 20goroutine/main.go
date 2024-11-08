@@ -8,7 +8,7 @@ import (
 )
 
 var wg sync.WaitGroup
-var signals = []string{"test"}
+var signals = []string{}
 var mut sync.Mutex
 
 func main() {
