@@ -12,5 +12,5 @@ func main() {
 	connection.ConnectDb()
 	routes.UserRoutes(app)
 
-	app.Listen(":3000")
+	app.Listen(":3001")
 }
