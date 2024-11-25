@@ -13,4 +13,6 @@ func UserRoutes(app *fiber.App) {
 	app.Get("/news", controller.GetUser)
 	app.Get("/sectionlisting",controller.GetsectionListing)
 	// app.Patch("/user/:id", controller.UpdateUser)
+	app.Put("/user/changepassword", controller.ChangePassword)
+	app.Put("/user/:id", controller.ChangeForgetPassword)
 }
